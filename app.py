@@ -16,130 +16,30 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 # Page Configuration
-st.set_page_config(
-    page_title="Car Price Predictor",
-    page_icon="🚗",
-    layout="wide"
-)
+st.set_page_config(page_title="Car Price Predictor", page_icon="🚗", layout="wide")
 
-# Enhanced Custom CSS with car theme
+# Global CSS (bluish theme)
 st.markdown("""
-    <style>
-    /* Main theme */
-    .main {
-        background: linear-gradient(135deg, #1a1a1a 0%, #2c3e50 100%);
-        color: white;
-    }
-    
-    /* Dashboard container */
-    .dashboard-container {
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        border-radius: 15px;
-        padding: 20px;
-        margin: 10px 0;
-    }
-    
-    /* Car themed cards */
-    .specs-card {
-        background: rgba(52, 152, 219, 0.1);
-        border-radius: 15px;
-        padding: 20px;
-        margin: 10px 0;
-        border: 1px solid rgba(52, 152, 219, 0.3);
-        transition: all 0.3s ease;
-    }
-    
-    .specs-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 15px rgba(52, 152, 219, 0.2);
-    }
-    
-    /* Animated elements */
-    .car-icon {
-        animation: drive 2s infinite linear;
-    }
-    
-    @keyframes drive {
-        0% { transform: translateX(-20px); }
-        50% { transform: translateX(20px); }
-        100% { transform: translateX(-20px); }
-    }
-    
-    /* Buttons */
-    .stButton>button {
-        background: linear-gradient(45deg, #3498db, #2980b9);
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 25px;
-        font-weight: bold;
-        transition: all 0.3s ease;
-    }
-    
-    .stButton>button:hover {
-        transform: scale(1.05);
-        box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
-    }
-    
-    /* Prediction box */
-    .prediction-box {
-        background: linear-gradient(45deg, #2ecc71, #27ae60);
-        color: white;
-        padding: 25px;
-        border-radius: 15px;
-        margin: 20px 0;
-        animation: glow 2s infinite alternate;
-    }
-    
-    @keyframes glow {
-        from { box-shadow: 0 0 10px rgba(46, 204, 113, 0.5); }
-        to { box-shadow: 0 0 20px rgba(46, 204, 113, 0.8); }
-    }
-    
-    /* Gauge animation */
-    .gauge-container {
-        transition: all 0.5s ease;
-    }
-    
-    /* Input fields */
-    .stNumberInput, .stSelectbox {
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 10px;
-        padding: 5px;
-    }
-    
-    /* Tabs styling */
-    .stTabs [data-baseweb="tab-list"] {
-        gap: 8px;
-        background-color: rgba(255, 255, 255, 0.1);
-        border-radius: 15px;
-        padding: 5px;
-    }
-    
-    .stTabs [data-baseweb="tab"] {
-        background-color: transparent;
-        border-radius: 10px;
-        color: white;
-        transition: all 0.3s ease;
-    }
-    
-    .stTabs [data-baseweb="tab"]:hover {
-        background-color: rgba(52, 152, 219, 0.2);
-    }
-    
-    /* Progress bar animation */
-    @keyframes progress {
-        0% { width: 0; }
-        100% { width: 100%; }
-    }
-    
-    .progress-bar {
-        height: 4px;
-        background: #3498db;
-        animation: progress 2s ease;
-    }
-    </style>
+<style>
+/* Main theme - bluish gradient */
+.main { background: linear-gradient(135deg, #071b3f 0%, #0b3d91 100%); color: #e6f0ff; }
+.dashboard-container { background: rgba(10, 40, 80, 0.12); backdrop-filter: blur(8px); border-radius: 15px; padding: 20px; margin: 10px 0; border: 1px solid rgba(255,255,255,0.03); }
+.specs-card { background: rgba(35, 105, 200, 0.06); border-radius: 12px; padding: 18px; margin: 10px 0; border: 1px solid rgba(75, 145, 220, 0.12); transition: all 0.25s ease; }
+.specs-card:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(15, 63, 145, 0.2); }
+.car-icon { animation: drive 2s infinite linear; }
+@keyframes drive { 0% { transform: translateX(-20px); } 50% { transform: translateX(20px); } 100% { transform: translateX(-20px); } }
+.stButton>button { background: linear-gradient(45deg, #1f6fb8, #0b3d91); color: white; border: none; padding: 10px 20px; border-radius: 12px; font-weight: 600; transition: all 0.2s ease; }
+.stButton>button:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(11,61,145,0.28); }
+.prediction-box { background: linear-gradient(135deg, rgba(52,152,219,0.12), rgba(26,115,232,0.18)); color: #eaf6ff; padding: 22px; border-radius: 12px; margin: 18px 0; border: 1px solid rgba(80,160,240,0.08); }
+@keyframes glow { from { box-shadow: 0 0 10px rgba(26,115,232,0.08); } to { box-shadow: 0 0 24px rgba(26,115,232,0.12); } }
+.gauge-container { transition: all 0.5s ease; }
+.stNumberInput, .stSelectbox { background: rgba(255,255,255,0.03); border-radius: 8px; padding: 6px; }
+.stTabs [data-baseweb="tab-list"] { gap: 8px; background-color: rgba(255,255,255,0.02); border-radius: 12px; padding: 6px; }
+.stTabs [data-baseweb="tab"] { background-color: transparent; border-radius: 8px; color: #dbeefe; transition: all 0.2s ease; }
+.stTabs [data-baseweb="tab"]:hover { background-color: rgba(31,111,184,0.12); }
+@keyframes progress { 0% { width: 0; } 100% { width: 100%; } }
+.progress-bar { height: 4px; background: #1f6fb8; animation: progress 2s ease; }
+</style>
 """, unsafe_allow_html=True)
 
 # Add dynamic header with animated car
@@ -161,18 +61,60 @@ st.markdown("<div class='dashboard-container'>", unsafe_allow_html=True)
 # ===============================
 @st.cache_data
 def load_data():
-    df = pd.read_csv('car_data/car data.csv')
-    df['Car_Age'] = 2025 - df['Year']
-    
-    # Create brand column from Car_Name
-    df['Brand'] = df['Car_Name'].apply(lambda x: x.split()[0])
-    
-    # Ensure Selling_Price is always less than Present_Price
-    df = df[df['Selling_Price'] < df['Present_Price']]
-    
-    # Remove outliers
-    df = df[df['Selling_Price'] > df['Present_Price'] * 0.2]
-    
+    # Try multiple likely dataset locations to make the app more robust
+    import os
+
+    possible_paths = [
+        os.path.join('car_data', 'car data.csv'),
+        os.path.join('car_data', 'car data .csv'),
+        'car data.csv',
+        'Car details v4.csv',
+        'Car details v3.csv',
+        'CAR DETAILS FROM CAR DEKHO.csv',
+        'car details v4.csv',
+        'car details v3.csv'
+    ]
+
+    found = None
+    for p in possible_paths:
+        if os.path.isfile(p):
+            found = p
+            break
+
+    if found is None:
+        # Provide a helpful error that lists files in the repo root and car_data folder
+        root_files = []
+        try:
+            root_files = os.listdir('.')
+        except Exception:
+            root_files = []
+
+        car_data_files = []
+        try:
+            car_data_files = os.listdir('car_data')
+        except Exception:
+            car_data_files = []
+
+        raise FileNotFoundError(
+            "Dataset not found. Tried paths: {}.\nFiles in project root: {}\nFiles in ./car_data/: {}\n\nPlease place your CSV in one of the tried locations or update the path in load_data()."
+            .format(possible_paths, root_files, car_data_files)
+        )
+
+    df = pd.read_csv(found)
+    # Simple sanity check and feature creation
+    if 'Year' in df.columns:
+        df['Car_Age'] = 2025 - df['Year']
+
+    # Create brand column from Car_Name if present
+    if 'Car_Name' in df.columns:
+        df['Brand'] = df['Car_Name'].apply(lambda x: str(x).split()[0])
+
+    # Ensure Selling_Price is always less than Present_Price when those columns exist
+    if 'Selling_Price' in df.columns and 'Present_Price' in df.columns:
+        df = df[df['Selling_Price'] < df['Present_Price']]
+        # Remove extreme outliers
+        df = df[df['Selling_Price'] > df['Present_Price'] * 0.2]
+
     return df
 
 df = load_data()
@@ -197,54 +139,63 @@ model.fit(X_train, y_train)
 # ===============================
 # Streamlit UI
 # ===============================
-st.title("🚘 Smart Car Value Estimator")
+# Polished header
 st.markdown("""
-    <div style='background-color: #2c3e50; padding: 1rem; border-radius: 10px; color: white;'>
-        <h3>🎯 Get an Accurate Estimate for Your Car's Value</h3>
-        <p>Using advanced machine learning to analyze market trends and car specifications</p>
+<div style="background: linear-gradient(90deg,#0f1724,#152238); padding: 2rem; border-radius: 12px; color: white;">
+    <div style="display:flex; align-items:center; gap: 1rem;">
+        <div style="font-size: 48px;">🚘</div>
+        <div>
+            <h1 style="margin:0; font-family: 'Segoe UI', Roboto, Arial;">Smart Car Value Estimator</h1>
+            <p style="margin:0; color:#cbd5e1;">A simple ML demo to estimate used car prices with explainable outputs.</p>
+        </div>
     </div>
+</div>
 """, unsafe_allow_html=True)
 
-# Create three columns for better layout
-col1, col2, col3 = st.columns([1,1,1])
+# Main inputs and dataset metrics laid out side-by-side
+left_col, right_col = st.columns([1, 1.2])
 
-with col1:
-    st.markdown("<div class='specs-card'>", unsafe_allow_html=True)
-    st.subheader("🚗 Basic Details")
-    
-    # Add car brand selection
-    unique_brands = list(brand_mapping.keys())
-    car_brand = st.selectbox("Car Brand", 
-                            unique_brands,
-                            help="Select your car's manufacturer")
-    
-    brand_encoded = brand_mapping[car_brand]
-    
-    present_price = st.number_input("Market Price (Lakhs)", 
-                                  min_value=0.0, step=0.1)
-    kms_driven = st.number_input("Odometer Reading (km)",
-                                min_value=0, step=100)
-    car_age = st.slider("Vehicle Age",
-                       min_value=0, max_value=30, step=1)
-    st.markdown("</div>", unsafe_allow_html=True)
+with left_col:
+        st.markdown("<div class='specs-card'>", unsafe_allow_html=True)
+        st.subheader("🚗 Your Car Details")
+        unique_brands = list(brand_mapping.keys()) if 'brand_mapping' in globals() else ['Unknown']
+        car_brand = st.selectbox("Car Brand", unique_brands)
+        brand_encoded = brand_mapping.get(car_brand, 0) if 'brand_mapping' in globals() else 0
 
-with col2:
-    st.markdown("<div class='specs-card'>", unsafe_allow_html=True)
-    st.subheader("⚙️ Technical Specs")
-    fuel_type = st.selectbox("Fuel Type",
-                            ["Petrol ⛽", "Diesel 🛢️", "CNG 🌱"])
-    transmission = st.selectbox("Transmission",
-                              ["Manual 🔧", "Automatic ⚡"])
-    st.markdown("</div>", unsafe_allow_html=True)
+        present_price = st.number_input("Market Price (Lakhs)", min_value=0.0, step=0.1, value=float(X.mean().get('Present_Price', 5) if 'Present_Price' in X.columns else 5))
+        kms_driven = st.number_input("Odometer (km)", min_value=0, step=100, value=10000)
+        car_age = st.slider("Vehicle Age (years)", min_value=0, max_value=30, step=1, value=5)
 
-with col3:
-    st.markdown("<div class='specs-card'>", unsafe_allow_html=True)
-    st.subheader("📋 Additional Info")
-    owner = st.selectbox("Previous Owners",
-                        ["First Owner 🥇", "Second Owner 🥈", "Third Owner 🥉", "Fourth+ Owner"])
-    seller_type = st.selectbox("Seller Category",
-                              ["Dealer 🏪", "Individual 👤"])
-    st.markdown("</div>", unsafe_allow_html=True)
+        st.markdown("<hr />", unsafe_allow_html=True)
+        st.subheader("⚙️ Technical Specs")
+        fuel_type = st.selectbox("Fuel Type", ["Petrol ⛽", "Diesel 🛢️", "CNG 🌱"])
+        transmission = st.selectbox("Transmission", ["Manual 🔧", "Automatic ⚡"])
+
+        st.markdown("<hr />", unsafe_allow_html=True)
+        st.subheader("📋 Additional Info")
+        owner = st.selectbox("Previous Owners", ["First Owner 🥇", "Second Owner 🥈", "Third Owner 🥉", "Fourth+ Owner"])
+        seller_type = st.selectbox("Seller Category", ["Dealer 🏪", "Individual 👤"])
+        st.markdown("</div>", unsafe_allow_html=True)
+
+with right_col:
+        st.markdown("""
+        <div style='display:flex; gap:12px; margin-top:8px;'>
+            <div style='flex:1; background:linear-gradient(135deg,#1f2a44,#233a66); padding:16px; border-radius:10px; color:white;'>
+                <h4 style='margin:0;'>Dataset Count</h4>
+                <h2 style='margin:0;'>{count}</h2>
+            </div>
+            <div style='flex:1; background:linear-gradient(135deg,#173a2b,#1f6f45); padding:16px; border-radius:10px; color:white;'>
+                <h4 style='margin:0;'>Median Price (Lakhs)</h4>
+                <h2 style='margin:0;'>{median:.2f}</h2>
+            </div>
+            <div style='flex:1; background:linear-gradient(135deg,#4b2b6b,#6a3ea0); padding:16px; border-radius:10px; color:white;'>
+                <h4 style='margin:0;'>Mean Price (Lakhs)</h4>
+                <h2 style='margin:0;'>{mean:.2f}</h2>
+            </div>
+        </div>
+        """.format(count=len(original_df) if 'original_df' in globals() else 0,
+                             median=float(original_df['Selling_Price'].median()) if 'original_df' in globals() and 'Selling_Price' in original_df.columns else 0.0,
+                             mean=float(original_df['Selling_Price'].mean()) if 'original_df' in globals() and 'Selling_Price' in original_df.columns else 0.0), unsafe_allow_html=True)
 
 # Clean up the input data
 fuel_type = fuel_type.split()[0]

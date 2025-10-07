@@ -1,0 +1,1 @@
+& 'C:\Program Files\Python313\python.exe' -m streamlit run 'c:\Users\sidha\car-price-prediction\app.py'
